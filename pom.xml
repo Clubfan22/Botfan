@@ -29,7 +29,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>me.diskstation.ammon.botfan.botfan.Botfan</mainClass>
+                            <mainClass>me.diskstation.ammon.botfan.Botfan</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
