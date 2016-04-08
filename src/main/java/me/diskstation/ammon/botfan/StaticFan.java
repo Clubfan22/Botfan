@@ -5,6 +5,7 @@
  */
 package me.diskstation.ammon.botfan;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import net.sourceforge.jwbf.core.actions.HttpActionClient;
 import net.sourceforge.jwbf.core.contentRep.Article;
@@ -54,17 +55,22 @@ public class StaticFan extends Botfan {
 
     protected void saveWikicodeToPage(String title, String content, boolean forceUpdate) {
         Article a = getArticle(title);
-        if (forceUpdate || !a.getText().equals(content)) {
-            a.setText(content);
-            a.setMinorEdit(true);
-            a.save("Automatic conversion from dynamic page to static wikicode");
-        }
+        //if (forceUpdate || !a.getText().equals(content)) {
+		if (content.equals("\n")){
+			content = "&nbsp;\n";
+		}
+        a.setText(content);
+        a.setMinorEdit(true);
+        a.save("Automatic conversion from dynamic page to static wikicode");
+        
     }
 
     public static void main(String[] args) {
-        String[] wikis = {"dota2", "counterstrike", "heroes"};
+        String[] wikis = {"dota2", "counterstrike", "heroes", "starcraft2", "warcraft"};
         for (String wiki : wikis) {
-            StaticFan sf = StaticFan.forWiki(wiki, 5);
+			System.out.println(wiki);
+			System.out.println(new Date(System.currentTimeMillis()));
+            StaticFan sf = StaticFan.forWiki(wiki, 10);
             String[] inputPages = {"Liquipedia:Upcoming and ongoing matches/dynamic", "Liquipedia:Upcoming and ongoing matches on mainpage/dynamic"};
             String[] outputPages = {"Liquipedia:Upcoming and ongoing matches", "Liquipedia:Upcoming and ongoing matches on mainpage"};
             for (int j = 0; j < inputPages.length; j++) {

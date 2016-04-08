@@ -84,7 +84,7 @@ public class PurgePage extends MWAction {
      * @param title     A single page title which should be purged
      */
     public PurgePage(final Userinfo userinfo, final String title) {
-      this(userinfo, new String[] {title});
+      this(userinfo, new String[] {MediaWiki.urlEncode(title)});
     }
     
     /**

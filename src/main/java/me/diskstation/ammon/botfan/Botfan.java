@@ -1,9 +1,12 @@
 package me.diskstation.ammon.botfan;
 
+import com.google.common.collect.ImmutableList;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import static me.diskstation.ammon.botfan.PurgePage.MODE_FORCE_LINKUPDATE;
 import net.sourceforge.jwbf.core.actions.HttpActionClient;
+import net.sourceforge.jwbf.mediawiki.MediaWiki;
 import net.sourceforge.jwbf.mediawiki.actions.queries.TemplateUserTitles;
 import net.sourceforge.jwbf.mediawiki.bots.MediaWikiBot;
 
@@ -34,9 +37,10 @@ public class Botfan extends MediaWikiBot {
         return bf;
     }
 
-    public void purgePage(final String articlename) {
+    public void purgePage(String articlename) {
         System.out.println(articlename);
-        PurgePage pp = new PurgePage(getUserinfo(), articlename);
+		articlename = articlename.replace(".", "%2E");
+        PurgePage pp = new PurgePage(getUserinfo(), MediaWiki.urlEncode(articlename));
         client.performAction(pp);
     }
 
@@ -46,7 +50,7 @@ public class Botfan extends MediaWikiBot {
     }
 
     protected void purgeUsages(String template) {
-        Iterator<String> titles = new TemplateUserTitles(this, template);
+        Iterator<String> titles = new TemplateUserTitles(this, template, MediaWiki.NS_MAIN);
         while (titles.hasNext()) {
             purgePage(titles.next());
         }
@@ -62,7 +66,7 @@ public class Botfan extends MediaWikiBot {
     }
 
     public static void main(String[] args) {
-        Botfan bf = Botfan.forWiki("dota2", 10);
+        Botfan bf = Botfan.forWiki("dota2", 30);
         bf.purgeUsages("Template:Upcoming and ongoing matches of");
     }
 }
