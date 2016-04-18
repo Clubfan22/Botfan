@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import static me.diskstation.ammon.botfan.PurgePage.MODE_FORCE_LINKUPDATE;
 import net.sourceforge.jwbf.core.actions.HttpActionClient;
+import net.sourceforge.jwbf.core.contentRep.Article;
 import net.sourceforge.jwbf.mediawiki.MediaWiki;
 import net.sourceforge.jwbf.mediawiki.actions.queries.TemplateUserTitles;
 import net.sourceforge.jwbf.mediawiki.bots.MediaWikiBot;
@@ -64,9 +65,35 @@ public class Botfan extends MediaWikiBot {
         String password = sc.nextLine();
         login(username, password);
     }
-
+	
+	public void replace(String page, String old, String n){
+		System.out.println(page);
+		Article a = getArticle(page);
+		String text = a.getText();
+		text = text.replaceAll(old, n);
+		a.setText(text);
+		a.setMinorEdit(true);
+		a.setEditSummary("Removed unnecessary parameter |number=");
+		a.save();
+		//System.out.println(text);
+	}
+	public void replaceOnAllUsages(String template, String old, String n){
+		TemplateUserTitles tut = new TemplateUserTitles(this, template, MediaWiki.NS_ALL);
+		boolean skip = true;
+		while (tut.hasNext()){
+			String page = tut.next();
+			if (page.equals("Go4Heroes/Europe/Weekly/28")){
+				skip = false;
+			}
+			if (!skip){
+				replace(page, old, n);
+			}
+			
+		}
+	}
     public static void main(String[] args) {
         Botfan bf = Botfan.forWiki("dota2", 30);
         bf.purgeUsages("Template:Upcoming and ongoing matches of");
+		//bf.replaceOnAllUsages("Template:Infobox league", "\\|number\\=[0-9]*\\n", "");
     }
 }
