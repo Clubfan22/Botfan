@@ -34,6 +34,7 @@ public class StaticFan extends Botfan {
                 .withRequestsPerUnit(requestsPerMinute, TimeUnit.MINUTES) 
                 .build());
         sf.loginFromPrompt();
+		//sf.login("username", "password");
         return sf;
     } 
     

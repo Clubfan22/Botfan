@@ -35,6 +35,7 @@ public class Botfan extends MediaWikiBot {
                 .withRequestsPerUnit(requestsPerMinute, TimeUnit.MINUTES)
                 .build());
         bf.loginFromPrompt();
+		//bf.login("username", "password");
         return bf;
     }
 
@@ -79,7 +80,7 @@ public class Botfan extends MediaWikiBot {
 	}
 	public void replaceOnAllUsages(String template, String old, String n){
 		TemplateUserTitles tut = new TemplateUserTitles(this, template, MediaWiki.NS_ALL);
-		boolean skip = true;
+		boolean skip = false;
 		while (tut.hasNext()){
 			String page = tut.next();
 			if (page.equals("Go4Heroes/Europe/Weekly/28")){
@@ -92,8 +93,11 @@ public class Botfan extends MediaWikiBot {
 		}
 	}
     public static void main(String[] args) {
-        Botfan bf = Botfan.forWiki("dota2", 30);
-        bf.purgeUsages("Template:Upcoming and ongoing matches of");
-		//bf.replaceOnAllUsages("Template:Infobox league", "\\|number\\=[0-9]*\\n", "");
+		String[] wikis = {"dota2"}; //counterstrike
+		for (String wiki : wikis){
+			Botfan bf = Botfan.forWiki(wiki, 30);
+			bf.purgeUsages("Template:Infobox player");
+			//bf.replaceOnAllUsages("Template:Infobox league", "\\|number\\=[0-9]*\\n", "");
+		}        
     }
 }

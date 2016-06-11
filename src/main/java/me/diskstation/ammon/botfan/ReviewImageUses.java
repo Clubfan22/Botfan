@@ -4,17 +4,14 @@
  */
 package me.diskstation.ammon.botfan;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import net.sourceforge.jwbf.core.actions.HttpActionClient;
 import net.sourceforge.jwbf.core.contentRep.Article;
 import net.sourceforge.jwbf.mediawiki.MediaWiki;
 import net.sourceforge.jwbf.mediawiki.actions.queries.AllPageTitles;
 import net.sourceforge.jwbf.mediawiki.actions.queries.ImageUsageTitles;
-import net.sourceforge.jwbf.mediawiki.bots.MediaWikiBot;
 
 /**
  *
@@ -33,6 +30,7 @@ public class ReviewImageUses extends Botfan {
                 .withRequestsPerUnit(requestsPerMinute, TimeUnit.MINUTES)
                 .build());
         riu.loginFromPrompt();
+		//riu.login("username", "password");
         return riu;
     }
 
@@ -53,8 +51,12 @@ public class ReviewImageUses extends Botfan {
     }
 
     public Iterator<String> getAllPages() {
-        return new AllPageTitles(this, MediaWiki.NS_MAIN);
+        return new AllPageTitles(this, MediaWiki.NS_TEMPLATE);
     }
+	
+	public Iterator<String> getAllUnreviewedPages() {
+		return new UnreviewedPagesTitles(this, MediaWiki.NS_TEMPLATE);
+	}
 
     // Reviews all pages which use the specified image and are reviewed
     public void reviewAllPagesUsingImage(String image) {
@@ -101,18 +103,24 @@ public class ReviewImageUses extends Botfan {
         *  While this might sound contradictory, it was needed when we moved 
         *  all images to LP-Commons.
          */
-        String[] wikis = {"smash", "starcraft2", "overwatch", "hearthstone",
-            "dota2", "heroes", "smash", "counterstrike"};
+		boolean skip = false;
+        String[] wikis = {"warcraft"}; //"smash", "starcraft2", "starcraft", "hearthstone", "dota2", "heroes", "counterstrike", "overwatch", 
         for (String wiki : wikis) {
-            ReviewImageUses riu = ReviewImageUses.forWiki(wiki, 10);
-            Iterator<String> pages = riu.getAllPages();
+            ReviewImageUses riu = ReviewImageUses.forWiki(wiki, 120);
+            Iterator<String> pages = riu.getAllUnreviewedPages();
             while (pages.hasNext()) {
                 String page = pages.next();
+				if (page.equals("Template:TeamPage/evolve")){
+					skip = false;
+				}
                 System.out.println(page);
-                Article a = riu.getArticle(page);
-                if (riu.isReviewed(a)) {
-                    riu.reviewPage(a);
-                }
+				if (!skip){
+						Article a = riu.getArticle(page);
+					//if (riu.isReviewed(a)) {
+						riu.reviewPage(a);
+					//}
+				}
+                
             }
         }
     }

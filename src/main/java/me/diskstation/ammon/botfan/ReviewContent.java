@@ -51,7 +51,7 @@ public class ReviewContent extends MWAction {
 
   public ReviewContent(MediaWikiBot bot, final SimpleArticle a) {
     if (Strings.isNullOrEmpty(a.getTitle())) {
-      throw new ActionException("imposible request, no title");
+      throw new ActionException("impossible request, no title");
     }
     this.a = a;
     this.bot = bot;
