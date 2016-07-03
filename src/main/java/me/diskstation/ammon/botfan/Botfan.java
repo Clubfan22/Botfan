@@ -1,10 +1,8 @@
 package me.diskstation.ammon.botfan;
 
-import com.google.common.collect.ImmutableList;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-import static me.diskstation.ammon.botfan.PurgePage.MODE_FORCE_LINKUPDATE;
 import net.sourceforge.jwbf.core.actions.HttpActionClient;
 import net.sourceforge.jwbf.core.contentRep.Article;
 import net.sourceforge.jwbf.mediawiki.MediaWiki;
@@ -42,12 +40,12 @@ public class Botfan extends MediaWikiBot {
     public void purgePage(String articlename) {
         System.out.println(articlename);
 		articlename = articlename.replace(".", "%2E");
-        PurgePage pp = new PurgePage(getUserinfo(), MediaWiki.urlEncode(articlename));
+        PurgePage pp = new PurgePage(getUserinfo(), MediaWiki.urlEncode(articlename), PurgePage.MODE_PURGE);
         client.performAction(pp);
     }
 
     protected void purgePages(String[] titles) {
-        PurgePage pp = new PurgePage(getUserinfo(), titles);
+        PurgePage pp = new PurgePage(getUserinfo(), titles, PurgePage.MODE_PURGE);
         client.performAction(pp);
     }
 

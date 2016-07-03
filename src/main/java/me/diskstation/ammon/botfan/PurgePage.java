@@ -83,8 +83,8 @@ public class PurgePage extends MWAction {
     *                   "purge" right.  
      * @param title     A single page title which should be purged
      */
-    public PurgePage(final Userinfo userinfo, final String title) {
-      this(userinfo, new String[] {MediaWiki.urlEncode(title)});
+    public PurgePage(final Userinfo userinfo, final String title, int mode) {
+      this(userinfo, new String[] {MediaWiki.urlEncode(title)}, mode);
     }
     
     /**
@@ -93,8 +93,8 @@ public class PurgePage extends MWAction {
     *                   "purge" right.
     *  @param titles    String[] of titles which should be purged
     */
-    public PurgePage(final Userinfo userinfo, final String[] titles) {
-        this(userinfo, MediaWiki.nullSafeCopyOf(titles));
+    public PurgePage(final Userinfo userinfo, final String[] titles, int mode) {
+        this(userinfo, MediaWiki.nullSafeCopyOf(titles), mode);
     }
     
     /**

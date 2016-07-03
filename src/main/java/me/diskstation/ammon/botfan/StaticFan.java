@@ -67,7 +67,7 @@ public class StaticFan extends Botfan {
     }
 
     public static void main(String[] args) {
-        String[] wikis = {"dota2", "counterstrike", "heroes", "starcraft2", "warcraft"};
+        String[] wikis = {"dota2", "counterstrike", "heroes", "starcraft2", "warcraft", "rocketleague"};
         for (String wiki : wikis) {
 			System.out.println(wiki);
 			System.out.println(new Date(System.currentTimeMillis()));
