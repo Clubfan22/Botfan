@@ -68,13 +68,13 @@ public class StaticFan extends Botfan {
     }
 
     public static void main(String[] args) {
-        String[] wikis = {"dota2", "counterstrike", "heroes", "starcraft2", "warcraft", "rocketleague", "overwatch"};
+        String[] wikis = {"warcraft"};
         for (String wiki : wikis) {
             System.out.println(wiki);
             System.out.println(new Date(System.currentTimeMillis()));
             StaticFan sf = StaticFan.forWiki(wiki, 10);
-            String[] inputPages = {"Liquipedia:Upcoming and ongoing matches/dynamic", "Liquipedia:Upcoming and ongoing matches on mainpage/dynamic"};
-            String[] outputPages = {"Liquipedia:Upcoming and ongoing matches", "Liquipedia:Upcoming and ongoing matches on mainpage"};
+            String[] inputPages = {"Liquipedia:Tournaments/dynamic"};
+            String[] outputPages = {"Liquipedia:Tournaments"};
             for (int j = 0; j < inputPages.length; j++) {
                 sf.convertPageToStatic(inputPages[j], outputPages[j]);
             }
