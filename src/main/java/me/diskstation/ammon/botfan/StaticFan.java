@@ -34,13 +34,14 @@ public class StaticFan extends Botfan {
                 .withRequestsPerUnit(requestsPerMinute, TimeUnit.MINUTES) 
                 .build());
         sf.loginFromPrompt();
-		//sf.login("username", "password");
+        //sf.login("username", "password");
         return sf;
     } 
     
     public void convertPageToStatic(String inputTitle, String outputTitle) {
         purgePage(inputTitle);
         String wikicode = getRenderedWikicodeFromPage(inputTitle);
+        wikicode = wikicode.replaceAll("\\[\\[SMW::off\\]\\]", "").replaceAll("\\[\\[SMW::on\\]\\]", "");
         saveWikicodeToPage(outputTitle, wikicode, false);
     }
 
@@ -57,9 +58,9 @@ public class StaticFan extends Botfan {
     protected void saveWikicodeToPage(String title, String content, boolean forceUpdate) {
         Article a = getArticle(title);
         //if (forceUpdate || !a.getText().equals(content)) {
-		if (content.equals("\n")){
-			content = "&nbsp;\n";
-		}
+        if (content.equals("\n")){
+            content = "&nbsp;\n";
+        }
         a.setText(content);
         a.setMinorEdit(true);
         a.save("Automatic conversion from dynamic page to static wikicode");
@@ -69,8 +70,8 @@ public class StaticFan extends Botfan {
     public static void main(String[] args) {
         String[] wikis = {"dota2", "counterstrike", "heroes", "starcraft2", "warcraft", "rocketleague", "overwatch"};
         for (String wiki : wikis) {
-			System.out.println(wiki);
-			System.out.println(new Date(System.currentTimeMillis()));
+            System.out.println(wiki);
+            System.out.println(new Date(System.currentTimeMillis()));
             StaticFan sf = StaticFan.forWiki(wiki, 10);
             String[] inputPages = {"Liquipedia:Upcoming and ongoing matches/dynamic", "Liquipedia:Upcoming and ongoing matches on mainpage/dynamic"};
             String[] outputPages = {"Liquipedia:Upcoming and ongoing matches", "Liquipedia:Upcoming and ongoing matches on mainpage"};
