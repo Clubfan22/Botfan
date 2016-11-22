@@ -18,17 +18,17 @@ public class StaticFan2 extends Botfan {
 
     private HttpActionClient client;
 
-    public StaticFan() {
+    public StaticFan2() {
         super();
     }
 
-    public StaticFan(HttpActionClient client) {
+    public StaticFan2(HttpActionClient client) {
         super(client);
         this.client = client;
     }
     
-    public static StaticFan forWiki(String wiki, int requestsPerMinute){
-        StaticFan sf = new StaticFan(HttpActionClient.builder()
+    public static StaticFan2 forWiki(String wiki, int requestsPerMinute){
+        StaticFan2 sf = new StaticFan2(HttpActionClient.builder()
                 .withUrl("http://wiki.teamliquid.net/" + wiki + "/") 
                 .withUserAgent("Botfan", "0.1", "Clubfan") 
                 .withRequestsPerUnit(requestsPerMinute, TimeUnit.MINUTES) 
@@ -72,7 +72,7 @@ public class StaticFan2 extends Botfan {
         for (String wiki : wikis) {
             System.out.println(wiki);
             System.out.println(new Date(System.currentTimeMillis()));
-            StaticFan sf = StaticFan.forWiki(wiki, 10);
+            StaticFan2 sf = StaticFan2.forWiki(wiki, 10);
             String[] inputPages = {"Liquipedia:Tournaments/dynamic"};
             String[] outputPages = {"Liquipedia:Tournaments"};
             for (int j = 0; j < inputPages.length; j++) {
