@@ -14,7 +14,7 @@ import net.sourceforge.jwbf.core.contentRep.Article;
  *
  * @author Marco Ammon <ammon.marco@t-online.de>
  */
-public class StaticFan extends Botfan {
+public class StaticFan2 extends Botfan {
 
     private HttpActionClient client;
 
